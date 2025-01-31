@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef } from "react";
-import { Upload, Film,  Check,  GamepadIcon } from "lucide-react";
+import { Upload, Film, Check, GamepadIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 

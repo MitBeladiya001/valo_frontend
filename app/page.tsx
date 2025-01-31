@@ -1,101 +1,221 @@
+"use client";
+import React, { useState } from "react";
+import {
+  Play,
+  ThumbsUp,
+  MessageCircle,
+  Upload,
+  PlusCircle,
+} from "lucide-react";
 import Image from "next/image";
 
-export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+const videoData = [
+  {
+    id: "1",
+    title: "Amazing Nature Exploration",
+    channel: "Nature Wanderers",
+    views: "2.3M",
+    thumbnail: "/api/placeholder/360/202",
+    avatar: "/api/placeholder/40/40",
+    duration: "12:45",
+    likes: "125K",
+    comments: "4.2K",
+  },
+  {
+    id: "2",
+    title: "Tech Innovations 2024",
+    channel: "TechPulse",
+    views: "1.7M",
+    thumbnail: "/api/placeholder/360/202",
+    avatar: "/api/placeholder/40/40",
+    duration: "18:30",
+    likes: "89K",
+    comments: "3.6K",
+  },
+  {
+    id: "3",
+    title: "World Travel Secrets",
+    channel: "Global Wanderer",
+    views: "3.1M",
+    thumbnail: "/api/placeholder/360/202",
+    avatar: "/api/placeholder/40/40",
+    duration: "22:15",
+    likes: "215K",
+    comments: "7.2K",
+  },
+  {
+    id: "4",
+    title: "Cooking Masterclass",
+    channel: "Chef's Table",
+    views: "950K",
+    thumbnail: "/api/placeholder/360/202",
+    avatar: "/api/placeholder/40/40",
+    duration: "45:20",
+    likes: "62K",
+    comments: "2.1K",
+  },
+  {
+    id: "5",
+    title: "Fitness Revolution",
+    channel: "Fit Warriors",
+    views: "1.5M",
+    thumbnail: "/api/placeholder/360/202",
+    avatar: "/api/placeholder/40/40",
+    duration: "35:10",
+    likes: "98K",
+    comments: "3.8K",
+  },
+  {
+    id: "6",
+    title: "Music Production Secrets",
+    channel: "Sound Lab",
+    views: "800K",
+    thumbnail: "/api/placeholder/360/202",
+    avatar: "/api/placeholder/40/40",
+    duration: "29:55",
+    likes: "55K",
+    comments: "1.9K",
+  },
+];
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+interface VideoUploadModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+const VideoUploadModal = ({ isOpen, onClose }: VideoUploadModalProps) => {
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+      <div className="bg-white rounded-xl p-8 w-96 shadow-2xl transform transition-all hover:scale-105">
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-2xl font-bold text-gray-800">Upload Video</h2>
+          <button
+            onClick={onClose}
+            className="text-gray-500 hover:text-red-500 transition-colors"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+            ✕
+          </button>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+        <div
+          className="border-2 border-dashed border-blue-300 p-6 rounded-lg text-center 
+          hover:border-blue-500 hover:bg-blue-50 transition-all group cursor-pointer"
         >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
+          <Upload
+            className="mx-auto mb-4 text-blue-500 group-hover:scale-110 transition-transform"
+            size={48}
           />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+          <p className="text-gray-600">
+            Drag and drop or
+            <span className="text-blue-600 ml-1 font-semibold">
+              Browse Files
+            </span>
+          </p>
+        </div>
+      </div>
     </div>
   );
+};
+
+interface Video {
+  id: string;
+  title: string;
+  channel: string;
+  views: string;
+  thumbnail: string;
+  avatar: string;
+  duration: string;
+  likes: string;
+  comments: string;
 }
+
+const VideoCard = ({ video }: { video: Video }) => {
+  const [showControls, setShowControls] = useState(false);
+
+  return (
+    <div
+      className="relative group cursor-pointer bg-white rounded-lg shadow-md 
+      hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2"
+      onMouseEnter={() => setShowControls(true)}
+      onMouseLeave={() => setShowControls(false)}
+    >
+      <div className="relative overflow-hidden rounded-t-lg">
+        <Image width={1080} height={720}
+          src={video.thumbnail}
+          alt="sjbjsh"
+          className="w-full h-48 object-cover transition-transform group-hover:scale-110"
+        />
+        <div className="absolute bottom-2 right-2 bg-black text-white px-2 py-1 rounded text-xs">
+          {video.duration}
+        </div>
+        {showControls && (
+          <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+            <Play className="text-white w-16 h-16 opacity-80 hover:opacity-100" />
+          </div>
+        )}
+      </div>
+
+      <div className="p-4">
+        <div className="flex space-x-3">
+          <Image width={1080} height={720}
+            src={video.avatar}
+            alt="jvdhf"
+            className="w-10 h-10 rounded-full"
+          />
+          <div className="flex-1">
+            <h3 className="font-bold text-sm line-clamp-2">{video.title}</h3>
+            <p className="text-xs text-gray-500">{video.channel}</p>
+            <div className="flex items-center space-x-2 text-xs text-gray-500 mt-1">
+              <span>{video.views} views</span>
+              <span>•</span>
+              <div className="flex items-center space-x-2">
+                <div className="flex items-center">
+                  <ThumbsUp className="w-3 h-3 mr-1" />
+                  {video.likes}
+                </div>
+                <div className="flex items-center">
+                  <MessageCircle className="w-3 h-3 mr-1" />
+                  {video.comments}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const YouTubeInterface = () => {
+  const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
+
+  return (
+    <div className="bg-gray-100 min-h-screen p-6">
+      <div className="container mx-auto">
+        <div className="flex justify-between items-center mb-8">
+          <h1 className="text-3xl font-bold text-gray-800">Recommended</h1>
+          <button
+            onClick={() => setIsUploadModalOpen(true)}
+            className="flex items-center bg-blue-600 text-white px-4 py-2 rounded-full 
+            hover:bg-blue-700 transition-colors group"
+          >
+            <PlusCircle className="mr-2 group-hover:rotate-180 transition-transform" />
+            Upload Video
+          </button>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-8">
+          {videoData.map((video) => (
+            <VideoCard key={video.id} video={video} />
+          ))}
+        </div>
+      </div>
+      <VideoUploadModal
+        isOpen={isUploadModalOpen}
+        onClose={() => setIsUploadModalOpen(false)}
+      />
+    </div>
+  );
+};
+
+export default YouTubeInterface;
